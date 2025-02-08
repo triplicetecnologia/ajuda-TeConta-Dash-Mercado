@@ -1,0 +1,163 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "GASTOS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "tipoDeGasto",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nomeGasto",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "HISTORICO_ITENS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idCadastro",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataRegistro",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "HISTORICO_ITENS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idCadastro",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "idUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataRegistro",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "ITEM_DISPENSA_DELETA",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "idUsuario",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LISTA_ATUAL_DE_COMPRAS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idUsuarioReferenecia",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nomeItemAdicionadoLista",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LISTA_COMPRAS_ATUAL",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "mesReferenciaLista",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LISTA_HISTORICO",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idCadastro",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "dataRegistro",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LISTA_HISTORICO_ITENS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idCadastro",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "idUsuario",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LISTA_ITENS_CADASTRADOS_DISPENSAS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "idUsuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nomeItemDispensa",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "TAREFAS_A_FAZER",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ucidUser",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "titulo",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "TAREFAS_FEITAS",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "ucidUser",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "titulo",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
