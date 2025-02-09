@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist/ajuda-te-conta-dash-mercado/browser",
+    "public": "dist/dashboard-ajuda-teconta/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

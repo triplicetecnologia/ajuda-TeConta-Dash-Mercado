@@ -1,0 +1,54 @@
+<div class="container">
+    <mat-card class="floating-card">
+      <form [formGroup]="options">
+  
+        <div class="example-form-fields">
+          <mat-form-field [hideRequiredMarker]="hideRequired()" [floatLabel]="floatLabel()">
+            <input matInput placeholder="Nome completo" required formControlName="nomecompleto" />
+          </mat-form-field>
+         
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+              placeholder="Ex. pat@example.com">
+            <mat-hint>*Obrigatório</mat-hint>
+            @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+            <mat-error>Fomato invalido</mat-error>
+            }
+            @if (emailFormControl.hasError('required')) {
+            <mat-error>Esse campo realmente é <strong>Obrigatório</strong></mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Telephone</mat-label>
+            <span matTextPrefix>+1 &nbsp;</span>
+            <input type="tel" matInput placeholder="555-555-1234">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide() ? 'password' : 'text'" />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="clickEvent($event)"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide()">
+              <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            </mat-form-field>
+  
+            
+        </div>
+      </form>
+  
+      <section>
+        <!-- <div class="example-label">Raised</div> -->
+        <div class="example-button-row">
+          <button mat-raised-button (click)="logValues()">CADASTRAR</button>
+          <button mat-raised-button (click)="logValues()">VOLTAR</button>
+          <!-- <button mat-raised-button (click)="criarUsuarioViaGoogle()">Login Google</button> -->
+        </div>
+      </section>
+    </mat-card>
+  </div>

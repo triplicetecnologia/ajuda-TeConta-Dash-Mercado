@@ -1,0 +1,51 @@
+
+  /* Centraliza o card na página */
+  .container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa toda a altura da tela */
+    background: linear-gradient(135deg, #0149da, #e2e8f0); /* Fundo com gradiente leve */
+  }
+  
+  /* Ajusta o card */
+  .floating-card {
+    width: 600px; /* Largura do card */
+      height: 500px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2); /* Efeito de sombra flutuante */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Centraliza os inputs */
+  .example-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os inputs */
+  }
+  
+  /* Centraliza os botões */
+  .example-button-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .example-container mat-form-field + mat-form-field {
+    margin-left: 20px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  
+  
+  

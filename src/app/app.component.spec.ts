@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'ajuda-teConta-dash-mercado' title`, () => {
+  it(`should have the 'dashboard-ajuda-teconta' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ajuda-teConta-dash-mercado');
+    expect(app.title).toEqual('dashboard-ajuda-teconta');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ajuda-teConta-dash-mercado');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, dashboard-ajuda-teconta');
   });
 });
