@@ -1,1 +1,93 @@
-<p>inicio works!</p>
+<mat-toolbar color="primary" class="top-bar">
+  <button mat-icon-button (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Ajuda-TeConta</span>
+  <span class="spacer"></span>
+
+  <button class="logout" color="accent" mat-icon-button (click)="logout()">  
+    <mat-icon>logout</mat-icon>
+  </button>
+  
+</mat-toolbar>
+
+<mat-sidenav-container class="content">
+  <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
+    <mat-nav-list>
+      <mat-list-item><h3>LOJA</h3></mat-list-item>
+      <mat-list-item><h3>PRODUTOS</h3></mat-list-item>
+      <mat-list-item><h3>HISTÓRICO</h3></mat-list-item>
+      <mat-list-item><h3>ANALISES</h3></mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <div class="floating-card" [@fadeIn]>
+      <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>Arroz</mat-card-title>
+          <mat-card-subtitle>Solito</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+           Histórico do produto:
+           ultima postagem feira: <br>
+           nome-produto | data criacao | duracao | preco | alcance | resultados
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>REPOSTAR</button>
+          <button mat-button>EDITAR</button>
+        </mat-card-actions>
+      </mat-card>
+      
+    </div>
+    <div class="floating-card" [@fadeIn]>
+      <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>Açucar</mat-card-title>
+          <mat-card-subtitle>Caravelas</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            Histórico do produto:
+            ultima postagem feira: <br>
+            nome-produto | data criacao | duracao | preco | alcance | resultados
+           </p>
+         </mat-card-content>
+         <mat-card-actions>
+           <button mat-button>REPOSTAR</button>
+           <button mat-button>EDITAR</button>
+         </mat-card-actions>
+      </mat-card>
+      
+    </div>
+    <div class="floating-card" [@fadeIn]>
+      <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>Feijão</mat-card-title>
+          <mat-card-subtitle>Nene</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <mat-card-content>
+          <p>
+            Histórico do produto:
+            ultima postagem feira: <br>
+            nome-produto | data criacao | duracao | preco | alcance | resultados
+           </p>
+         </mat-card-content>
+         <mat-card-actions>
+           <button mat-button>REPOSTAR</button>
+           <button mat-button>EDITAR</button>
+         </mat-card-actions>
+      </mat-card>
+      
+    </div>
+  </mat-sidenav-content>
+  
+</mat-sidenav-container>

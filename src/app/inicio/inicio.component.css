@@ -1,0 +1,110 @@
+
+
+
+/* Layout principal */
+.content {
+  display: flex;
+  /* height: 100vh; */
+  display: flex;
+ 
+  /* background-color: yellowgreen; */
+  /* animation: float 1.5s ease-in-out infinite alternate; */
+}
+
+/* Menu superior fixo */
+.top-bar {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  top: 0;
+  align-items: center;
+}
+
+/* Menu lateral */
+mat-sidenav {
+  width: 250px;
+  margin-top: 10px;
+  background-color: transparent;
+}
+/* Área principal */
+.main-content {
+  flex-grow: 1;
+  padding: 80px 20px; /* Ajuste para não sobrepor o menu superior */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* overflow: auto; */
+}
+/* Permite rolagem no conteúdo principal */
+mat-sidenav-content {
+  overflow: auto;
+  padding: 20px;
+}
+/* Card flutuante com sombra */
+.floating-card {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaço entre os cards */
+  justify-content: center; /* Centraliza os cards */
+  /* margin-top: 5px; */
+  animation: float 1.5s ease-in-out infinite alternate; 
+}
+
+.card {
+  width: 100%;
+  /* max-width: 1500px; */
+  padding: 20px;
+  /* margin-top: 10px; */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background: white;
+  /* animation: float 1.5s ease-in-out infinite alternate; */
+}
+
+/* Efeito de flutuação sutil */
+@keyframes float {
+  from {
+    transform: translateY(40px);
+  }
+  to {
+    transform: translateY(-15px);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  mat-sidenav {
+    width: 200px;
+  }
+
+  .card {
+    width: 90%;
+  }
+}
+
+.spacer {
+  flex-grow: 1; /* Ocupa todo o espaço disponível */
+}
+
+span{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-nav-list{
+  margin-top: 60px;;
+}
+
+
+h3{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.example-card {
+  width: 300px; 
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

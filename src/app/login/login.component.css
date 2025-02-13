@@ -1,6 +1,7 @@
 .container{
   
-  background: linear-gradient(135deg, #0149da, #e2e8f0);
+  background: linear-gradient(135deg, #e2e8f0, #0149da);
+  /* background: linear-gradient(135deg, #0149da, #e2e8f0); */
 }
 
 
@@ -36,7 +37,7 @@ mat-grid-tile {
   
   @keyframes pulse-border {
     0% {
-      box-shadow: 0 0 10px rgb(255, 255, 255);
+      box-shadow: 0 0 10px rgb(25, 10, 255);
     }
     50% {
       box-shadow: 0 0 20px rgb(0, 0, 255);
