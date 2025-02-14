@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="top-bar">
+<!-- <mat-toolbar color="primary" class="top-bar">
   <button mat-icon-button (click)="toggleSidenav()">
     <mat-icon>menu</mat-icon>
   </button>
@@ -9,17 +9,17 @@
     <mat-icon>logout</mat-icon>
   </button>
   
-</mat-toolbar>
+</mat-toolbar> -->
 
 <mat-sidenav-container class="content">
-  <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
+  <!-- <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
     <mat-nav-list>
-      <mat-list-item><h3>LOJA</h3></mat-list-item>
-      <mat-list-item><h3>PRODUTOS</h3></mat-list-item>
-      <mat-list-item><h3>HISTÓRICO</h3></mat-list-item>
-      <mat-list-item><h3>ANALISES</h3></mat-list-item>
+      <mat-list-item (click)="paginaLoja()" routerLink="/loja" ><h3>LOJA</h3></mat-list-item>
+      <mat-list-item routerLink="/produtos" ><h3>PRODUTOS</h3></mat-list-item>
+      <mat-list-item routerLink="/historico" ><h3>HISTÓRICO</h3></mat-list-item>
+      <mat-list-item routerLink="/analises" ><h3>ANALISES</h3></mat-list-item>
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-sidenav> -->
 
   <mat-sidenav-content class="main-content">
     <div class="floating-card" [@fadeIn]>

@@ -1,0 +1,30 @@
+.container{
+    height: 100vh;
+    overflow: none;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+
+}
+
+mat-card{
+    height: 70vh;
+}
+
+.inputsAll{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+    overflow: none;
+}
+
+mat-form-field{
+    
+    width: 90%;
+}
+
+.containertitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

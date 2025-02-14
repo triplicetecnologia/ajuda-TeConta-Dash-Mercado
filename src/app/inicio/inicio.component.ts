@@ -47,4 +47,8 @@ export class InicioComponent {
       this.router.navigate(['/login']);
     });
   }
+
+  paginaLoja(){
+    this.router.navigate(['/loja']);
+  }
 }

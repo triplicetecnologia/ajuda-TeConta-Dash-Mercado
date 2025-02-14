@@ -122,8 +122,8 @@ export class CadastrarUsuarioComponent {
     console.log('password:', this.options.get('password')?.value);
 
     try {
-      const userCredential = await this.service.register(email, senha);
-      console.log('Usuário criado:', userCredential.user);
+      const user = await this.service.register(email, senha); // Retorna um User diretamente
+      console.log('Usuário criado:', user);
     } catch (error) {
       console.error('Erro ao criar usuário:', error);
     }

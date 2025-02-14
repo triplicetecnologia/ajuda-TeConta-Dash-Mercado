@@ -1,1 +1,30 @@
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
+
+<mat-toolbar color="primary" class="top-bar" *ngIf="mostraMenu">
+    <button mat-icon-button (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Ajuda-TeConta</span>
+    <span class="spacer"></span>
+  
+    <button class="logout" color="accent" mat-icon-button (click)="logout()">  
+      <mat-icon>logout</mat-icon>
+    </button>
+    
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="content">
+    <mat-sidenav #sidenav mode="side" [(opened)]="sidenavOpened">
+      <mat-nav-list>
+        <mat-list-item (click)="paginaInicio()" routerLink="/inicio" ><h3>INICIO</h3></mat-list-item>
+        <mat-list-item (click)="paginaLoja()" routerLink="/loja" ><h3>LOJA</h3></mat-list-item>
+        <mat-list-item (click)="paginaProdutos()" ><h3>PRODUTOS</h3></mat-list-item>
+        <mat-list-item routerLink="/historico" ><h3>HISTÓRICO</h3></mat-list-item>
+        <mat-list-item routerLink="/analises" ><h3>ANALISES</h3></mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <router-outlet></router-outlet>
+    
+  </mat-sidenav-container>
+  

@@ -1,0 +1,48 @@
+<div class="container">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+        <mat-tab label="Anúncios">
+            Lista de produtos com anúncios em vigor
+        </mat-tab>
+        <mat-tab label="Produtos">Produtos Cadastrados para anúncios
+            <mat-card>
+                <div class="containertitle">
+                    <mat-card-title>Cadastrar Produto</mat-card-title>
+                </div>
+                <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()">
+                    <div class="inputsAll">
+                        <mat-form-field>
+                            <mat-label>Nome</mat-label>
+                            <input matInput formControlName="nome" required>
+                          </mat-form-field>
+
+                    </div>
+                    
+                    <div class="inputsAll"><mat-form-field>
+                        <mat-label>Preço</mat-label>
+                        <input matInput type="number" formControlName="preco" required>
+                      </mat-form-field></div>
+                    <div class="inputsAll"><mat-form-field>
+                        <mat-label>Categoria</mat-label>
+                        <input matInput formControlName="categoria">
+                      </mat-form-field></div>
+                      <div class="inputsAll">
+                        <mat-form-field>
+                          <mat-label>Descrição</mat-label>
+                          <textarea matInput formControlName="descricao"></textarea>
+                        </mat-form-field></div>
+                    <div class="inputsAll">
+                  
+              
+                        <button mat-raised-button color="primary" type="submit">Salvar</button></div>
+                    <div class="inputsAll"></div>
+              
+              
+                  
+              
+                </form>
+              </mat-card>
+              
+        </mat-tab>
+        <!-- <mat-tab label="Histórico">Dados dos anúncios anteriores</mat-tab> -->
+    </mat-tab-group>
+</div>

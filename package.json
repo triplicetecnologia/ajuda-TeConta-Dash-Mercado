@@ -22,6 +22,7 @@
     "@angular/router": "^19.1.0",
     "dashboard-ajuda-teconta": "file:",
     "firebase": "^11.3.0",
+    "ngx-mask": "^19.0.6",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",

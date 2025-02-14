@@ -1,0 +1,33 @@
+.spacer {
+    flex-grow: 1; /* Ocupa todo o espaço disponível */
+  }
+  
+  span{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  h3{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .sidenav-container {
+    height: 100vh; /* Ocupa 100% da altura da tela */
+    display: flex;
+  }
+  
+  .sidenav {
+    width: 250px; /* Define um tamanho fixo */
+    min-height: 100vh; /* Garante que o menu não encolha */
+    background: #f4f4f4;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .list-content{
+    margin-top: 50px;
+  }
+
+  #mat-tab-group-3-content-0 > div > div > mat-list{
+    margin-top: 25%;
+  }
