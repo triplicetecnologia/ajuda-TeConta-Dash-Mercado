@@ -1,48 +1,128 @@
 <div class="container">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
         <mat-tab label="Anúncios">
             Lista de produtos com anúncios em vigor
+            <button mat-raised-button color="primary" (click)="abrirDialogProduto()">Adicionar Produto</button>
+            <ul>
+                <li *ngFor="let product of produtos$ | async">
+                  {{ product.id }}
+                  {{ product.nome }}
+                  {{ product.produtoSelecionado.name }}
+                </li>
+              </ul>
         </mat-tab>
-        <mat-tab label="Produtos">Produtos Cadastrados para anúncios
-            <mat-card>
-                <div class="containertitle">
-                    <mat-card-title>Cadastrar Produto</mat-card-title>
+        <mat-tab label="Produtos">
+          
+          <!-- <div class="produtos-container">
+            <mat-card class="produto-card">
+              <div class="containertitle">
+                <mat-card-title>Cadastrar Produto</mat-card-title>
+              </div>
+              <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()">                
+                <div class="inputsAll">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tipo de Alimento</mat-label>
+                    <input type="text" matInput 
+                    [formControl]="myControl" 
+                    [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete"  
+                    [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>  
+                  <div class="inputsAll">
+                  <span>Teste</span>
+                </div>              
                 </div>
-                <form [formGroup]="produtoForm" (ngSubmit)="salvarProduto()">
-                    <div class="inputsAll">
-                        <mat-form-field>
-                            <mat-label>Nome</mat-label>
-                            <input matInput formControlName="nome" required>
-                          </mat-form-field>
+                
+                <div class="inputsAll">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nome</mat-label>
+                    <input matInput formControlName="nome" required>
+                  </mat-form-field>
+                </div>
+                <div class="inputsAll">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Descrição</mat-label>
+                    <textarea matInput formControlName="descricao"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="inputsAll">
+                  <button mat-raised-button color="primary" type="submit" class="submit-button">
+                    Salvar
+                  </button>
+                </div>
+              </form>
+            </mat-card>
+          </div> -->
 
-                    </div>
-                    
-                    <div class="inputsAll"><mat-form-field>
-                        <mat-label>Preço</mat-label>
-                        <input matInput type="number" formControlName="preco" required>
-                      </mat-form-field></div>
-                    <div class="inputsAll"><mat-form-field>
-                        <mat-label>Categoria</mat-label>
-                        <input matInput formControlName="categoria">
-                      </mat-form-field></div>
-                      <div class="inputsAll">
-                        <mat-form-field>
-                          <mat-label>Descrição</mat-label>
-                          <textarea matInput formControlName="descricao"></textarea>
-                        </mat-form-field></div>
-                    <div class="inputsAll">
+          <div class="produtos-wrapper">
+            <!-- Lista de produtos cadastrados -->
+            <div class="produtos-lista">
+              <h3>Produtos Cadastrados</h3>
+              <ul>
+                <li *ngFor="let product of produtos$ | async" (click)="selecionarProduto(product)">
+                  {{ product.nome }}
+                </li>
+              </ul>
+            </div>
+    
+            <!-- Formulário de cadastro/edição -->
+            <div class="produtos-form">
+              <mat-card class="produto-card">
+                <div class="containertitle">
+                  <mat-card-title>{{ editando ? 'Editar Produto' : 'Cadastrar Produto' }}</mat-card-title>
+                </div>
+                <form [formGroup]="produtoForm">
+                  <div class="inputsAll">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Tipo de Alimento</mat-label>
+                      <input type="text" matInput 
+                        [formControl]="myControl" 
+                        [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete"  
+                        [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                          {{ option.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>  
+                  </div>
                   
-              
-                        <button mat-raised-button color="primary" type="submit">Salvar</button></div>
-                    <div class="inputsAll"></div>
-              
-              
+                  <div class="inputsAll">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Nome</mat-label>
+                      <input matInput formControlName="nome" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="inputsAll">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Descrição</mat-label>
+                      <textarea matInput formControlName="descricao"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="inputsAll">
+                    <button mat-raised-button color="primary" type="submit" class="submit-button" (click)="salvarProduto()">
+                      {{ editando ? 'Atualizar' : 'Salvar' }}
+                    </button>
                   
-              
+                    <button *ngIf="editando" mat-raised-button color="warn" (click)="excluirProduto()" class="delete-button">
+                      Excluir
+                    </button>
+                  
+                    <button *ngIf="editando" mat-raised-button (click)="limparFormulario()" class="clear-button">
+                      Cancelar
+                    </button>
+                  </div>
+                  
                 </form>
               </mat-card>
-              
+            </div>
+          </div>
         </mat-tab>
+        
         <!-- <mat-tab label="Histórico">Dados dos anúncios anteriores</mat-tab> -->
     </mat-tab-group>
 </div>

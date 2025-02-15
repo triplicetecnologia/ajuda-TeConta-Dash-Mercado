@@ -11,3 +11,15 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif !important;
 }
 
+.mat-snack-bar-container {
+  background-color: #4caf50 !important; /* Verde */
+  color: white !important;
+  font-weight: bold;
+}
+
+.mat-snack-bar-container.snackbar-sucesso {
+  background-color: #4caf50 !important; /* Verde */
+  color: white !important;
+  font-weight: bold;
+}
+

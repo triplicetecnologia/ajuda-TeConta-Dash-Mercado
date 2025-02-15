@@ -50,7 +50,6 @@ export class AppComponent  implements OnInit{
 
   logout(){
     this.authService.logout().then(() => {
-      console.log('Usuário deslogado');
       this.notificadao.mostrarMensagem('Usuário deslogado com sucesso!');
       this.router.navigate(['/login']);
     });

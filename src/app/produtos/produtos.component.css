@@ -1,7 +1,8 @@
 .container{
-    height: 100vh;
-    overflow: none;
+    height: 90vh;
+    overflow: hidden !important;
     font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    /* background-color: yellow; */
 
 }
 
@@ -28,3 +29,92 @@ mat-form-field{
     justify-content: center;
     align-items: center;
 }
+
+.produtos-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 92vh; /* Usa toda a altura da tela */
+    background: linear-gradient(135deg, #88bbff, #0149da);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 9%;
+    overflow: hidden; /* Remove qualquer possível scroll da tela */
+  }
+  
+  .produto-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    background: rgba(103, 137, 248, 0.541);
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden !important; /* Impede scroll global */
+  }
+  
+  .containertitle {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .inputsAll {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+  .produtos-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    gap: 20px;
+  }
+  
+  .produtos-lista, .produtos-form {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f4f4f4;
+  }
+  
+  .produtos-lista h3 {
+    text-align: center;
+  }
+  
+  .produtos-lista ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .produtos-lista li {
+    cursor: pointer;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    transition: background 0.3s;
+  }
+  
+  .produtos-lista li:hover {
+    background: #ddd;
+  }
+  
+  .buttons-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  

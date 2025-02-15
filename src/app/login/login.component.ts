@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import {FloatLabelType, MatFormFieldModule} from '@angular/material/form-field';
@@ -11,6 +11,7 @@ import { Route, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { NotificaoServiceService } from '../services/notificao-service.service';
+import { DialogAnuncioComponent } from '../dialog-anuncio/dialog-anuncio.component';
 @Component({
   selector: 'app-login',
   imports: [MatGridListModule, MatCardModule, MatIconModule, MatInputModule,
@@ -20,7 +21,8 @@ import { NotificaoServiceService } from '../services/notificao-service.service';
     FormsModule
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent implements OnInit {
   isLoggedIn: boolean = false;
@@ -33,8 +35,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUser().subscribe((user) => {
       if (user) {
-        console.log('Usuário autenticado:', user);
-        this.notificadao.mostrarMensagem("Sucesso ao logar")
+        this.notificadao.mostrarMensagemSucesso("Sucesso ao logar")
         this.router.navigate(['/inicio']); // Redireciona se já estiver logado
       }
     });
@@ -70,4 +71,5 @@ export class LoginComponent implements OnInit {
       });
   }
 
+ 
 }

@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Adicionar Anúncio</h1>
+<div mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Produto</mat-label>
+    <input type="text" matInput [formControl]="produtoControl" [matAutocomplete]="auto" name="produtoSelecionado" >
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarProduto($event)">
+      <mat-option *ngFor="let produto of produtosFiltrados | async" [value]="produto.nome">
+        {{ produto.nome }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Preço</mat-label>
+    <input matInput type="number"  [(ngModel)]="anuncio.preco" name="precoAnuncio">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Data de Início</mat-label>
+    <input matInput type="text"  [matDatepicker]="pickerInicio" [(ngModel)]="anuncio.dataInicio" name="dataInicio">
+    <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+    <mat-datepicker #pickerInicio></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Data de Fim</mat-label>
+    <input matInput type="text"  [matDatepicker]="pickerFim" [(ngModel)]="anuncio.dataFim" name="dataFim" >
+    <mat-datepicker-toggle matIconSuffix [for]="pickerFim"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFim></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Plataforma</mat-label>
+    <mat-select type="text" [(ngModel)]="anuncio.plataforma" name="plataformaAnuncio" >
+      <mat-option value="Uber">Uber</mat-option>
+      <mat-option value="App Próprio">App Próprio</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <!-- <button mat-button (click)="onNoClick()">Cancelar</button> -->
+  <button mat-button (click)="salvarAnuncio()">Salvar</button>
+</div>
