@@ -18,12 +18,24 @@ export class AnuncioService {
   constructor() { }
 
   // Adiciona um novo anúncio
-  adicionarAnuncio(anuncio: any): Promise<void> {
+  async adicionarAnuncio(anuncio: any): Promise<void> {
     anuncio.dataInicio = Timestamp.fromDate(new Date(anuncio.dataInicio));
     anuncio.dataFim = Timestamp.fromDate(new Date(anuncio.dataFim));
-    return addDoc(this.anunciosRef, anuncio).then(() => {
-      console.log('Anúncio cadastrado com sucesso!');
-    });
+
+    const user = this.auth.currentUser;
+
+    if (user) {
+      anuncio.uid = user.uid;
+
+      return addDoc(this.anunciosRef, anuncio).then(() => {
+        console.log('Anúncio cadastrado com sucesso!');
+      });
+    } else {
+     
+    }
+
+
+   
   }
 
   // Retorna os anúncios ativos (dataInicio <= hoje <= dataFim)

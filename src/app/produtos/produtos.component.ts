@@ -237,4 +237,10 @@ export class ProdutosComponent implements OnInit {
       // });
     });
   }
+  // 📌 Captura a data selecionada no calendário
+  selecionarData(event: Date) {
+    console.log("Data selecionada:", event);
+  }
+
+  
 }
