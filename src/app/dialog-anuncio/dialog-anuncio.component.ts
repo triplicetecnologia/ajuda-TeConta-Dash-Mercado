@@ -1,14 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+
+interface Segmento {
+  name: string;
+
+}
+
+
+
+export interface Produto {
+  id?: string;
+  nome: string;
+  produtoSelecionado: Segmento;
+
+}
 
 
 export interface anuncio {
@@ -22,35 +37,44 @@ export interface anuncio {
 
 
 import { FormsModule } from '@angular/forms';
+import { ProdutosServiceService } from '../services/produtos-service.service';
 @Component({
   selector: 'app-dialog-anuncio',
   templateUrl: './dialog-anuncio.component.html',
-  imports: [MatAutocompleteModule, MatFormFieldModule, CommonModule, MatInputModule, MatButtonModule, MatDatepickerModule, FormsModule, ReactiveFormsModule ],
+  imports: [MatAutocompleteModule,MatDialogModule, MatSelectModule, MatFormFieldModule, MatCardModule, CommonModule, MatInputModule, MatButtonModule, MatDatepickerModule, FormsModule, ReactiveFormsModule ],
   styleUrls: ['./dialog-anuncio.component.css']
 })
 export class DialogAnuncioComponent {
-  produtoControl = new FormControl();
-  produtosFiltrados: Observable<any[]>;
-  // produtoControl = new FormControl<anuncio | null>(null);
-  anuncio = {
-    produtoNome: '',
-    preco: '',
-    dataInicio: '',
-    dataFim: '',
-    plataforma: ''
-  };
-  constructor(public dialogRef: MatDialogRef<DialogAnuncioComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.produtosFiltrados = this.produtoControl.valueChanges.pipe(
-      startWith(''),
-      map(value => data.produtos.filter((prod: { nome: string; }) => prod.nome.toLowerCase().includes(value.toLowerCase())))
-    );
+  produtoControl!: FormGroup;
+  produtos: Produto[] = [];  // 🔹 Inicializa como array vazio
+  // produtos$: Observable<Produto[]>;
+  
+
+  constructor(public dialogRef: MatDialogRef<DialogAnuncioComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private fb: FormBuilder) {
+  }
+  
+  ngOnInit() {
+    this.produtos = this.data.produtos || [];
+
+
+    this.produtoControl = this.fb.group({
+      produto: [''],
+      dataInicio: ['', Validators.required],
+      diasDuracao: ['', [Validators.required, Validators.min(1)]],
+      preco: ['', [Validators.required, Validators.min(0)]],
+      quantidadeDias: ['', Validators.required]
+    });
+    // this.produtos = this.data?.produtos && Array.isArray(this.data.produtos) ? this.data.produtos : [];
+  }
+  salvar() {
+    if (this.produtoControl.valid) {
+      this.dialogRef.close(this.produtoControl.value);
+    }
   }
 
-  selecionarProduto(event: any) {
-    this.anuncio.produtoNome = event.option.value;
-  }
-
-  salvarAnuncio() {
-    this.dialogRef.close(this.anuncio);
+  fechar() {
+    this.dialogRef.close();
   }
 }

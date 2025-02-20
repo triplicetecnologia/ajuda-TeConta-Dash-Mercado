@@ -1,0 +1,41 @@
+.dialog-container {
+    max-width: 500px;
+    padding: 20px;
+  }
+  
+  .dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+  .dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .date-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .half-width {
+    width: 50%;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+  
+  .cancel-btn {
+    color: #777;
+  }
+  

@@ -203,29 +203,38 @@ export class ProdutosComponent implements OnInit {
   }
 
   abrirDialogAnuncio() {
-    const dialogRef = this.dialog.open(DialogAnuncioComponent, {
-      width: '400px',
-      data: { produtos: this.produtos$ }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.anunciosService.adicionarAnuncio(result);
-      }
-    });
+
+    this.produtos$.subscribe(produtos  =>{
+
+      const dialogRef = this.dialog.open(DialogAnuncioComponent, {
+        width: '400px',
+        data: {produtos}
+      });
+  
+      // dialogRef.afterClosed().subscribe(result => {
+      //   if (result) {
+      //     this.anunciosService.adicionarAnuncio(result);
+      //   }
+      // });
+    })
+
+
   }
 
   abrirDialogProduto() : void {
-    const dialogRef = this.dialog.open(DialogAnuncioComponent, {
-      width: '400px',  // 📌 Ajuste o tamanho do modal se necessário
-      data: {} // Você pode passar dados aqui
-    });
+    this.produtos$.subscribe(produtos  =>{
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Anúncio salvo:', result);
-        // Aqui você pode recarregar a lista de anúncios
-      }
+      const dialogRef = this.dialog.open(DialogAnuncioComponent, {
+        width: '400px',
+        data: {produtos}
+      });
+  
+      // dialogRef.afterClosed().subscribe(result => {
+      //   if (result) {
+      //     this.anunciosService.adicionarAnuncio(result);
+      //   }
+      // });
     });
   }
 }
