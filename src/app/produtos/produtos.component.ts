@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Firestore, collection, addDoc } from 'firebase/firestore';
+import { Firestore, collection, addDoc, Timestamp } from 'firebase/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +20,10 @@ import { AnuncioService } from '../services/anuncios-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatNativeDateModule, DateAdapter, NativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import ptLocale from '@fullcalendar/core/locales/pt-br';
 interface Segmento {
   name: string;
 
@@ -35,14 +38,40 @@ export interface Produto {
 }
 
 
+interface Anuncio {
+  dataFim: any;
+  dataInicio: any;
+  preco: number;
+  produto: {
+    descricao: string;
+    id: string;
+    nome: string;
+  };
+  produtoSelecionado: {
+    name: string;
+    uid: string;
+  };
+  quantidadeDias: number;
+  uid: string;
+}
+
 
 @Component({
   selector: 'app-produtos',
-  imports: [MatTabsModule, MatTabsModule, MatAutocompleteModule, MatCardModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule, MatDatepickerModule],
+  imports: [FullCalendarModule,MatTabsModule, MatTabsModule, MatAutocompleteModule, MatCardModule, MatFormFieldModule, CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule, MatDatepickerModule],
   templateUrl: './produtos.component.html',
   styleUrl: './produtos.component.css',
 })
 export class ProdutosComponent implements OnInit {
+
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin],
+    initialView: 'dayGridMonth',
+    events: [], // Aqui vamos preencher com os anúncios
+    locales: [ptLocale], // Adiciona o idioma PT-BR
+    locale: 'pt-br', // Define como padrão
+   
+  };
 
   // private firestore = inject(Firestore)
   product = { nome: '', produtoSelecionado: '' };
@@ -71,9 +100,10 @@ export class ProdutosComponent implements OnInit {
   editando = false;
   produtoSelecionado: Segmento | null = null;
   produtos$: Observable<Produto[]>; // Lista de produtos
-  anunciosAtivos!: Observable<any[]>; // Anúncios ativos
+  anunciosAtivos:  any[] = [];// Anúncios ativos
   anunciosAguardando!: Observable<any[]>; // Anúncios aguardando início
-
+  cores: string[] = ["#FF5733", "#33FF57", "#3357FF", "#FF33A5", "#A533FF", "#FF8C33"];
+  anunciosExpirados: Anuncio[] = [];
   constructor(private fb: FormBuilder, private firebaseService: ProdutosServiceService,
     private notificadao: NotificaoServiceService,
     private anunciosService: AnuncioService,
@@ -85,8 +115,6 @@ export class ProdutosComponent implements OnInit {
     });
     this.displayFn = this.displayFn.bind(this);
     this.produtos$ = this.firebaseService.getProdutos();
-    this.anunciosAtivos = this.anunciosService.getAnunciosAtivos();
-    this.anunciosAguardando = this.anunciosService.getAnunciosAguardando();
   }
 
   ngOnInit() {
@@ -95,6 +123,55 @@ export class ProdutosComponent implements OnInit {
       map(value => (typeof value === 'string' ? value : value?.name || '')),
       map(name => (name ? this._filter(name) : this.alimentos.slice()))
     );
+
+    this.anunciosService.getAnuncios().subscribe(({ ativos, expirados }) => {
+      console.log('Anúncios Ativos:', ativos);
+      console.log('Anúncios Expirados:', expirados);
+      
+      this.anunciosAtivos = ativos;
+      this.anunciosExpirados = expirados;
+      this.atualizarCalendario();
+    });
+
+    
+  }
+
+  atualizarCalendario() {
+    const eventos : any = [];
+
+    this.anunciosAtivos.forEach((anuncio, index) => {
+      eventos.push({
+        title: anuncio.produto?.nome || "Anúncio",
+        start: this.getDateFromTimestamp(anuncio.dataInicio),
+        end: this.getDateFromTimestamp(anuncio.dataFim),
+        backgroundColor: this.cores[index % this.cores.length], // Mesma cor da lista
+        borderColor: "#000"
+      });
+    });
+
+    this.anunciosExpirados.forEach((anuncio, index) => {
+      eventos.push({
+        title: anuncio.produto?.nome || "Anúncio Expirado",
+        start: this.getDateFromTimestamp(anuncio.dataInicio),
+        end: this.getDateFromTimestamp(anuncio.dataFim),
+        backgroundColor: "#D3D3D3", // Cor cinza para anúncios expirados
+        borderColor: "#000",
+        locales: [ptLocale], // Adiciona o idioma PT-BR
+    locale: 'pt-br', // Define como padrão
+      });
+    });
+
+    this.calendarOptions = {
+      ...this.calendarOptions,
+      events: eventos
+    };
+  }
+
+  getDateFromTimestamp(timestamp: any): string {
+    console.log('====================================');
+    console.log("Datas retornadas ", timestamp instanceof Timestamp ? timestamp.toDate().toISOString().split('T')[0] : timestamp);
+    console.log('====================================');
+    return timestamp instanceof Timestamp ? timestamp.toDate().toISOString().split('T')[0] : timestamp;
   }
 
   private _filter(name: string): Segmento[] {
@@ -141,7 +218,10 @@ export class ProdutosComponent implements OnInit {
 
 
   }
-
+  getCor(index: number) {
+    const cores = ["#FF5733", "#33FF57", "#3357FF", "#FF33A5", "#A533FF", "#FF8C33"];
+    return cores[index % cores.length];
+  }
   onSubmit() {
     if (this.product.nome && this.product.produtoSelecionado) {
       this.product.produtoSelecionado
@@ -200,41 +280,16 @@ export class ProdutosComponent implements OnInit {
       });
     }
     this.produtos$ = this.firebaseService.getProdutos();
-  }
+  } 
 
-  abrirDialogAnuncio() {
-
-
+  abrirDialogAddAnuncios() : void {
     this.produtos$.subscribe(produtos  =>{
 
       const dialogRef = this.dialog.open(DialogAnuncioComponent, {
         width: '400px',
         data: {produtos}
-      });
-  
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result) {
-      //     this.anunciosService.adicionarAnuncio(result);
-      //   }
-      // });
-    })
-
-
-  }
-
-  abrirDialogProduto() : void {
-    this.produtos$.subscribe(produtos  =>{
-
-      const dialogRef = this.dialog.open(DialogAnuncioComponent, {
-        width: '400px',
-        data: {produtos}
-      });
-  
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result) {
-      //     this.anunciosService.adicionarAnuncio(result);
-      //   }
-      // });
+      }); 
+    
     });
   }
   // 📌 Captura a data selecionada no calendário

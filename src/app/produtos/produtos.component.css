@@ -113,6 +113,7 @@ mat-form-field{
   }
   
   .buttons-container {
+    margin: 12px;
     display: flex;
     gap: 10px;
   }
@@ -126,4 +127,58 @@ mat-form-field{
   }
   
   
+
+  .containerAnuncios {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
   
+  .lista {
+    width: 30%;
+  }
+  
+  .calendar-container {
+    width: 30%;
+  }
+  
+  /* Estiliza o container do calendário */
+#calendar-container {
+  width: 60%;
+  max-width: 590px; /* Ajuste conforme necessário */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Ajusta o tamanho do calendário */
+.fc {
+  max-width: 100%;
+  overflow: hidden; /* Remove scroll horizontal */
+}
+
+/* Ajusta a altura do calendário para caber os eventos */
+.fc-daygrid-day {
+  min-height: 80px; /* Garante espaço para múltiplos eventos */
+}
+
+/* Personaliza os eventos para melhor legibilidade */
+.fc-event {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ajusta a altura do evento para que vários possam caber no mesmo dia */
+.fc-daygrid-event {
+  height: auto;
+  min-height: 25px;
+}
+
+button{
+  margin: 12px;
+}

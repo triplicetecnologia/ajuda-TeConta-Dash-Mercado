@@ -40,12 +40,15 @@ export class AppComponent  implements OnInit{
 
   paginaLoja(){
     this.router.navigate(['/loja']);
+    this.toggleSidenav();
   }
   paginaInicio(){
     this.router.navigate(['/inicio']);
+    this.toggleSidenav();
   }
   paginaProdutos(){
     this.router.navigate(['/produtos']);
+    this.toggleSidenav();
   }
 
   logout(){

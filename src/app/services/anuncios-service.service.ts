@@ -1,21 +1,45 @@
 import { inject, Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, where } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Timestamp } from 'firebase/firestore';
 import { Auth } from '@angular/fire/auth';
+
+interface Anuncio {
+  dataFim: any;
+  dataInicio: any;
+  preco: number;
+  produto: {
+    descricao: string;
+    id: string;
+    nome: string;
+  };
+  produtoSelecionado: {
+    name: string;
+    uid: string;
+  };
+  quantidadeDias: number;
+  uid: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnuncioService {
 
-  private firestore = inject(Firestore)
-  private auth = inject(Auth)
+  
+
+  private firestore: Firestore;
+  private auth: Auth;
+  private anunciosRef;
 
 
-  private anunciosRef = collection(this.firestore, 'ANUNCIOS');
+  // private anunciosRef = collection(this.firestore, 'ANUNCIOS');
 
-  constructor() { }
+  constructor() {
+    this.firestore = inject(Firestore)
+  this.auth = inject(Auth)
+  this.anunciosRef = collection(this.firestore, 'ANUNCIOS');
+   }
 
   // Adiciona um novo anúncio
   async adicionarAnuncio(anuncio: any): Promise<void> {
@@ -50,5 +74,20 @@ export class AnuncioService {
     const hoje = Timestamp.fromDate(new Date());
     const q = query(this.anunciosRef, where('dataInicio', '>', hoje));
     return collectionData(q, { idField: 'id' });
+  }
+
+  getAnuncios(): Observable<{ ativos: Anuncio[]; expirados: Anuncio[] }> {
+    const anunciosRef = collection(this.firestore, 'ANUNCIOS');
+
+    return collectionData(anunciosRef, { idField: 'id' }).pipe(
+      map((anuncios: any[]) => {
+        const agora = new Date().getTime(); // Timestamp atual
+
+        return {
+          ativos: anuncios.filter(anuncio => anuncio.dataFim.toMillis() >= agora),
+          expirados: anuncios.filter(anuncio => anuncio.dataFim.toMillis() < agora)
+        };
+      })
+    );
   }
 }

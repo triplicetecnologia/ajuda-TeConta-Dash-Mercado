@@ -1,19 +1,44 @@
 <div class="container">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-    <mat-tab label="Anúncios">
-      Lista de produtos com anúncios em vigor
-      <button mat-raised-button color="primary" (click)="abrirDialogProduto()">Adicionar Produto</button>
+    <mat-tab label="Anúncios">     
+     
 
-      <!-- Exibindo produtos já cadastrados -->
-      <!-- <ul>
-                <li *ngFor="let product of produtos$ | async">
-                  {{ product.id }}
-                  {{ product.nome }}
-                  {{ product.produtoSelecionado.name }}
-                </li>
-              </ul> --><mat-card class="calendar-container">
-        <mat-calendar (selectedChange)="selecionarData($event)"></mat-calendar>
-      </mat-card>
+      <div class="containerAnuncios">
+        <!-- <mat-card class="calendar-container">
+          <mat-calendar (selectedChange)="selecionarData($event)"></mat-calendar>  
+        </mat-card> -->
+        <div id="calendar-container">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+          
+        </div>
+        
+        <div class="lista">
+          <h3>Anúncios Ativos <button mat-raised-button color="primary" (click)="abrirDialogAddAnuncios()">Adicionar Anúncio</button></h3>
+          <ul *ngIf="anunciosAtivos.length > 0; else semAtivos">
+            <li *ngFor="let anuncio of anunciosAtivos ; let i = index" [style.backgroundColor]="getCor(i)">
+              {{ anuncio.produto.produtoSelecionado.name }} - {{ anuncio.produto.nome }} - Ativo até: {{ anuncio.dataFim.toDate() | date:'dd/MM/yyyy' }}
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="lista">
+          <h3>Histórico de Anúncios</h3>
+          <ul *ngIf="anunciosExpirados.length > 0; else semExpirados">
+            <li *ngFor="let anuncio of anunciosExpirados; let i = index" [style.backgroundColor]="getCor(i)">
+              {{ anuncio.produtoSelecionado.name }} - {{ anuncio.produto.nome }} - Ativo até: {{ anuncio.dataFim.toDate() | date:'dd/MM/yyyy' }}
+            </li>
+          </ul>
+        </div> -->
+  <!-- Template caso não tenha anúncios expirados -->
+  <ng-template #semExpirados>
+    <p>Nenhum anúncio expirado.</p>
+  </ng-template>
+    <!-- Template caso não tenha anúncios expirados -->
+    <ng-template #semAtivos>
+      <p>Nenhum anúncio ati.</p>
+    </ng-template>
+      </div>
+   
+      
     </mat-tab>
     <mat-tab label="Produtos">
       <div class="produtos-wrapper">
