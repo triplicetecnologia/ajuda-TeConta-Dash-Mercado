@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, query, where } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
-import { Timestamp } from 'firebase/firestore';
+import { deleteDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { Auth } from '@angular/fire/auth';
 
 interface Anuncio {
@@ -89,5 +89,45 @@ export class AnuncioService {
         };
       })
     );
+  }
+
+  // Editar um anúncio existente
+  async editarAnuncio(id: string, anuncio: Partial<Anuncio>): Promise<void> {
+    const anuncioDocRef = doc(this.firestore, 'ANUNCIOS', id);
+  
+    // Verifica se as datas são válidas antes de converter
+    if (anuncio.dataInicio && !isNaN(new Date(anuncio.dataInicio).getTime())) {
+      anuncio.dataInicio = Timestamp.fromDate(new Date(anuncio.dataInicio));
+    } else {
+      console.error('Data de início inválida:', anuncio.dataInicio);
+      return;
+    }
+  
+    if (anuncio.dataFim && !isNaN(new Date(anuncio.dataFim).getTime())) {
+      anuncio.dataFim = Timestamp.fromDate(new Date(anuncio.dataFim));
+    } else {
+      console.error('Data de fim inválida:', anuncio.dataFim);
+      return;
+    }
+  
+    return updateDoc(anuncioDocRef, { ...anuncio })
+      .then(() => {
+        console.log('Anúncio atualizado com sucesso!');
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar anúncio:', error);
+      });
+  }
+  
+
+   // Excluir um anúncio
+   async excluirAnuncio(id: string): Promise<void> {
+    const anuncioDocRef = doc(this.firestore, 'ANUNCIOS', id);
+    
+    return deleteDoc(anuncioDocRef).then(() => {
+      console.log('Anúncio excluído com sucesso!');
+    }).catch(error => {
+      console.error('Erro ao excluir anúncio:', error);
+    });
   }
 }

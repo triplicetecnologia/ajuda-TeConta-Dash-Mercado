@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Editar Anúncio</h2>
+<mat-dialog-content [formGroup]="anuncioForm">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="nome" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Descrição</mat-label>
+    <input matInput formControlName="descricao" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Preço</mat-label>
+    <input matInput type="number" formControlName="preco" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Data de Início</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="dataInicio" required>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Quantidade de Dias</mat-label>
+    <input matInput type="number" formControlName="quantidadeDias" required>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-button color="primary" (click)="salvar()" [disabled]="anuncioForm.invalid">Salvar</button>
+</mat-dialog-actions>

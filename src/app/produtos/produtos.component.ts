@@ -24,6 +24,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
+import { DialogEditarAnuncioComponent } from '../dialog-editar-anuncio/dialog-editar-anuncio.component';
 interface Segmento {
   name: string;
 
@@ -171,7 +172,17 @@ export class ProdutosComponent implements OnInit {
     console.log('====================================');
     console.log("Datas retornadas ", timestamp instanceof Timestamp ? timestamp.toDate().toISOString().split('T')[0] : timestamp);
     console.log('====================================');
-    return timestamp instanceof Timestamp ? timestamp.toDate().toISOString().split('T')[0] : timestamp;
+    if (!timestamp) return ''; // Retorna vazio se não houver timestamp
+
+  if (timestamp instanceof Timestamp) {
+    return timestamp.toDate().toISOString().split('T')[0]; 
+  }
+
+  if (typeof timestamp === 'string') {
+    return timestamp.split('T')[0]; // Caso já seja string no formato ISO
+  }
+
+  return ''; // Retorno padrão se não for um formato esperado
   }
 
   private _filter(name: string): Segmento[] {
@@ -296,6 +307,25 @@ export class ProdutosComponent implements OnInit {
   selecionarData(event: Date) {
     console.log("Data selecionada:", event);
   }
+// Função para abrir o diálogo de edição
+editarAnuncio(anuncio: any) {
+  const dialogRef = this.dialog.open(DialogEditarAnuncioComponent, {
+    width: '600px',
+    data: anuncio
+  });
 
-  
+  // dialogRef.afterClosed().subscribe((result) => {
+  //   if (result) {
+  //     this.anunciosService.editarAnuncio(result);
+  //   }
+  // });
+}
+
+// Função para excluir um anúncio
+excluirAnuncio(id: string) {
+  if (confirm('Tem certeza que deseja excluir este anúncio?')) {
+    this.anunciosService.excluirAnuncio(id);
+  }
+}
+
 }

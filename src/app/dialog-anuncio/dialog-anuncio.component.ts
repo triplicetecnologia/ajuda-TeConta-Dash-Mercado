@@ -39,6 +39,7 @@ export interface anuncio {
 import { FormsModule } from '@angular/forms';
 import { ProdutosServiceService } from '../services/produtos-service.service';
 import { AnuncioService } from '../services/anuncios-service.service';
+import { Timestamp } from 'firebase/firestore';
 @Component({
   selector: 'app-dialog-anuncio',
   templateUrl: './dialog-anuncio.component.html',
@@ -50,7 +51,8 @@ export class DialogAnuncioComponent {
   produtos: Produto[] = [];  // 🔹 Inicializa como array vazio
   // produtos$: Observable<Produto[]>;
   anuncio!: anuncio;
-
+  anuncioEdita!: anuncio;
+  dialog: any;
   constructor(public dialogRef: MatDialogRef<DialogAnuncioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -59,8 +61,19 @@ export class DialogAnuncioComponent {
 
   ngOnInit() {
     this.produtos = this.data.produtos || [];
+    // this.anuncioEdita = this.data.anuncio || [];
+    
+
+    if(this.anuncioEdita){
+      console.log("Tem edição")
+    }else{
+      console.log("Nao tem edição")
+    }
+
+    
 
 
+    console.log("anuncioEdita   " , this.anuncioEdita)
     this.produtoControl = this.fb.group({
       produto: ['', Validators.required],       // Produto obrigatório
       dataInicio: ['', Validators.required],    // Data de início obrigatória
@@ -80,18 +93,33 @@ export class DialogAnuncioComponent {
       console.log("Dias enviado ", quantDias);
       console.log("Dia inicio selecionado ", this.produtoControl.get('dataInicio')?.value)
       console.log('====================================');
-      this.anuncio = this.produtoControl.value;
-      this.anuncio.dataFim = this.calcularDataFim(this.anuncio.dataInicio, quantDias)
-      // this.dialogRef.close(this.produtoControl.value);
-      try {
+      let dataInicio = this.produtoControl.get('dataInicio')?.value
 
-        this.anuncioService.adicionarAnuncio(this.anuncio);
-
-        // await addDoc(collection(this.firestore, 'anuncios'), anuncio);
-        this.dialogRef.close(true); // Fecha o diálogo e indica sucesso
-      } catch (error) {
-        console.error('Erro ao salvar anúncio:', error);
+      if (!dataInicio) {
+        console.error("Erro: Data de início está indefinida");
+        return;
       }
+      // 🔹 Se `dataInicio` for um objeto `Date`, converte para string
+    if (dataInicio instanceof Date) {
+      dataInicio = dataInicio.toISOString().split('T')[0]; // "yyyy-MM-dd"
+    }
+
+       // Convertendo para string "yyyy-MM-dd"
+    const dataInicioFormatada = dataInicio.toString().split('T')[0];
+    const dataFimFormatada = this.calcularDataFim(dataInicioFormatada, quantDias);
+    console.log("Data de início formatada:", dataInicio);
+    this.anuncio = this.produtoControl.value;
+    this.anuncio.dataInicio = dataInicio;
+    this.anuncio.dataFim = this.calcularDataFim(dataInicio, quantDias);
+
+    
+   
+    try {
+      this.anuncioService.adicionarAnuncio(this.anuncio);
+      this.dialogRef.close(true);
+    } catch (error) {
+      console.error('Erro ao salvar anúncio:', error);
+    }
 
     }else{
       console.log('====================================');
@@ -105,13 +133,18 @@ export class DialogAnuncioComponent {
   }
   calcularDataFim(dataInicio: string, dias: number): string {
     let data = new Date(dataInicio);
-    data.setDate(data.getDate() + dias);
-    console.log('====================================');
-    console.log("calcularDataFim ", data.toISOString().split('T')[0]);
-    console.log('====================================');
-    return data.toISOString().split('T')[0];
+  data.setDate(data.getDate() + dias);
+  return data.toISOString().split('T')[0]; // Retorna "yyyy-MM-dd"
   }
   onCancel() {
     this.dialogRef.close();
+  }
+
+  formatDate(timestamp: Timestamp): string {
+    if (timestamp instanceof Timestamp) {
+      const date = timestamp.toDate();
+      return date.toISOString().split('T')[0]; // Formato "yyyy-MM-dd"
+    }
+    return ''; // Retorna string vazia se não for um Timestamp
   }
 }
