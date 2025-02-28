@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {MatTabsModule} from '@angular/material/tabs';
+import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import { LojaserviceService } from '../services/lojaservice.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-loja',
-  imports: [MatTabsModule, MatCardModule, MatIconModule,NgxMaskDirective , MatExpansionModule, MatButtonModule,
+  imports: [MatTabGroup,MatTabsModule, MatCardModule, MatIconModule,NgxMaskDirective , MatExpansionModule, MatButtonModule,
     MatToolbarModule, MatListModule, MatFormFieldModule , MatInputModule , ReactiveFormsModule, MatSelectModule, CommonModule
   ],
   templateUrl: './loja.component.html',
@@ -31,6 +31,8 @@ export class LojaComponent implements OnInit{
   private lojaService = inject(LojaserviceService)
   lojas: any[] = [];
   readonly panelOpenState = signal(false);
+  lojaEditando: any = null; // Para saber se está editando uma loja
+  @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;  // Adicionando referência à aba
 
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -45,7 +47,6 @@ export class LojaComponent implements OnInit{
       estado: ['', Validators.required],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      // categoria: ['', Validators.required],
       descricao: ['']
     });
   }
@@ -59,13 +60,18 @@ export class LojaComponent implements OnInit{
 
   async cadastrarLoja() {
     if (this.lojaForm.valid) {
-      const lojaData = { ...this.lojaForm.value, logo: '' };
+      const lojaData = { ...this.lojaForm.value, logo: '', latitude: null, longitude: null };
       
-      // if (this.logoLoja) {
-      //   const logoUrl = await this.lojaService.uploadLogo(this.logoLoja);
-      //   lojaData.logo = logoUrl;
-      // }
+      const enderecoCompleto = `${lojaData.rua}, ${lojaData.numero}, ${lojaData.bairro}, ${lojaData.cidade}, ${lojaData.estado}, ${lojaData.cep}`;
+      const enderecoLatitude = `${lojaData.rua}, ${lojaData.cidade}`
       
+      const coordenadas = await this.obterCoordenadas(enderecoLatitude);
+      
+      if (coordenadas) {
+        lojaData.latitude = coordenadas.lat;
+        lojaData.longitude = coordenadas.lng;
+      }
+  
       this.lojaService.cadastrarLoja(lojaData).then(() => {
         alert('Loja cadastrada com sucesso!');
         this.lojaForm.reset();
@@ -108,4 +114,50 @@ export class LojaComponent implements OnInit{
       console.error("Erro ao carregar lojas: ", error);
     }
   }
+
+
+  async obterCoordenadas(endereco: string): Promise<{ lat: number, lng: number } | null> {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;    
+    try {
+      const resposta = await fetch(url);
+      const dados = await resposta.json();
+  
+      if (dados.length > 0) {
+        return {
+          lat: parseFloat(dados[0].lat),
+          lng: parseFloat(dados[0].lon),
+        };
+      } else {
+        console.error("Nenhuma coordenada encontrada para o endereço.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      return null;
+    }
+  }
+
+
+  editarLoja(loja: any) {
+    // Preenche o formulário com os dados da loja para edição
+    this.lojaForm.patchValue({
+      nome: loja.nome,
+      email: loja.email,
+      descricao: loja.descricao
+    });
+    this.lojaEditando = loja;
+  }
+
+  excluirLoja(id: string) {
+    if (confirm('Tem certeza que deseja excluir esta loja?')) {
+      this.lojaService.excluirLoja(id).then(() => {
+        alert('Loja excluída com sucesso!');
+        this.carregarLojas();
+      }).catch(error => {
+        console.error('Erro ao excluir loja:', error);
+      });
+    }
+  }
+
+  
 }

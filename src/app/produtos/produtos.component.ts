@@ -104,7 +104,13 @@ export class ProdutosComponent implements OnInit {
   anunciosAtivos:  any[] = [];// Anúncios ativos
   anunciosAguardando!: Observable<any[]>; // Anúncios aguardando início
   cores: string[] = ["#FF5733", "#33FF57", "#3357FF", "#FF33A5", "#A533FF", "#FF8C33"];
+
+
+
   anunciosExpirados: Anuncio[] = [];
+
+
+  
   constructor(private fb: FormBuilder, private firebaseService: ProdutosServiceService,
     private notificadao: NotificaoServiceService,
     private anunciosService: AnuncioService,
