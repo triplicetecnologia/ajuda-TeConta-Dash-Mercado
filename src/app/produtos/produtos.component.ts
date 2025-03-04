@@ -25,6 +25,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
 import { DialogEditarAnuncioComponent } from '../dialog-editar-anuncio/dialog-editar-anuncio.component';
+import { SegmentoService } from '../services/segmento.service';
+import { SegmentDialogComponent } from '../segment-dialog/segment-dialog.component';
 interface Segmento {
   name: string;
 
@@ -100,7 +102,7 @@ export class ProdutosComponent implements OnInit {
   filteredOptions!: Observable<Segmento[]>;
   editando = false;
   produtoSelecionado: Segmento | null = null;
-  produtos$: Observable<Produto[]>; // Lista de produtos
+  produtos$: Observable<any[]>; // Lista de produtos
   anunciosAtivos:  any[] = [];// Anúncios ativos
   anunciosAguardando!: Observable<any[]>; // Anúncios aguardando início
   cores: string[] = ["#FF5733", "#33FF57", "#3357FF", "#FF33A5", "#A533FF", "#FF8C33"];
@@ -125,6 +127,7 @@ export class ProdutosComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value?.name || '')),
@@ -221,6 +224,7 @@ export class ProdutosComponent implements OnInit {
     } else {
       if (this.produtoForm.valid) {
         // this.produtoForm.produtoSelecionado = this
+        
         this.firebaseService.addProduct(this.produtoForm.value)
           .then((result) => {
             this.notificadao.mostrarMensagemSucesso("Produto criado com sucesso")
@@ -334,4 +338,16 @@ excluirAnuncio(id: string) {
   }
 }
 
+openDialog() {
+  const dialogRef = this.dialog.open(SegmentDialogComponent, {
+    width: '400px'
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Segmentos cadastrados:', result);
+      // Salvar os segmentos no Firestore aqui
+    }
+  });
+}
 }

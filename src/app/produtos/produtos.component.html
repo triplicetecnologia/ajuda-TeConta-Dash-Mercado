@@ -61,7 +61,11 @@
 
         <!-- Formulário de cadastro/edição -->
         <div class="produtos-form">
+          <div>
+            <button mat-raised-button color="accent" (click)="openDialog()">Adicionar Segmento</button>
+          </div>
           <mat-card class="produto-card">
+            
             <div class="containertitle">
               <mat-card-title>{{ editando ? 'Editar Produto' : 'Cadastrar Produto' }}</mat-card-title>
             </div>

@@ -4,5 +4,6 @@ export interface Produto {
     preco: number;
     segmento: string; // Apenas o nome do segmento
     empresa: string;  // Apenas o nome da empresa/loja
+    uid: string
   }
   

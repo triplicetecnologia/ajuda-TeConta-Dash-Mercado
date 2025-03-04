@@ -3,6 +3,10 @@ import { Auth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Firestore, collection, addDoc, query, where, getDocs, doc, updateDoc, collectionData, deleteDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { Produto } from '../models/produto';
+
+
+
 
 interface Segmento {
   name: string;
@@ -10,12 +14,15 @@ interface Segmento {
 }
 
 
-export interface Produto {
-  id?: string;
-  nome: string;
-  produtoSelecionado: Segmento;
+// export interface Produto {
+//   id?: string;
+//   nome: string;
+//   preco: number;
+//   segmento: string; // Apenas o nome do segmento
+//   empresa: string;  // Apenas o nome da empresa/loja
+//   uid:string;
 
-}
+// }
 
 
 
@@ -26,10 +33,30 @@ export class ProdutosServiceService {
 
   private firestore = inject(Firestore)
   private auth = inject(Auth)
+  private produtoSalva!: Produto
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) { 
+    
+
+  }
   private produtoAdd = collection(this.firestore, "PRODUTOS_CADASTRADO_ANUNCIOS")
   async addProduct(product: any) {
+
+    this.produtoSalva.nome = product.nome;
+
+
+    if (!product.produtoSelecionado) {
+      console.error('Erro: Nenhum produto foi selecionado!');
+      return;
+    }
+
+    this.produtoSalva.segmento = product.produtoSelecionado.name;
+    this.produtoSalva.uid=product.uid;
+    this.produtoSalva.empresa = product.empresa;
+    console.log("Produto antes de salvar", product);
+    console.log("produtoSalva antes de salvar", this.produtoSalva);
+
+    
     const user = this.auth.currentUser;
 
     if (user) {
